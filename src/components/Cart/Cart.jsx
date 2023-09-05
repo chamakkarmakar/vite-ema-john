@@ -5,11 +5,19 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const Cart = ({ cart }) => {
+    let totalPrice =0;
+    let totalShipping =0;
+    let quantity =0;
 
-    const quantity = cart.reduce((previous, current) => current = previous + current.quantity, 0)
-    const totalPrice = cart.reduce((previous, current) => current = previous + current.price, 0)
-    const totalShipping = cart.reduce((previous, current) => current = previous + current.shipping, 0)
+    for (const item of cart){
+        item.quantity = item.quantity || 1;
+        quantity += item.quantity;
+        totalPrice += item.price * item.quantity;
+        totalShipping +=item.shipping;
+    }
+
     const tax = (totalPrice * 5) / 100;
+
     const grandTotal = totalPrice + totalShipping + tax;
 
     return (
